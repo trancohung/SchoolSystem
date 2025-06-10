@@ -17,12 +17,24 @@ const teacherApi = {
       throw error;
     }
   },
-  create: async () => {
+  create: async (data) => {
     try {
-      const response = await axios.post(API_BASE_URL);
+      const response = await axios.post(API_BASE_URL, data);
       return response.data;
     } catch (error) {
       console.error("Error creating teachers:", error);
+      throw error;
+    }
+  },
+  update: async (id, data) => {
+    try {
+      const response = await axios.put(`${API_BASE_URL}/${id}`, data);
+      return response.data;
+    } catch (error) {
+      console.error(
+        "Error updating teacher:",
+        error.response?.data || error.message
+      );
       throw error;
     }
   },

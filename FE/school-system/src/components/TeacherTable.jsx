@@ -1,6 +1,6 @@
 import React from "react";
 
-const TeacherTable = ({ teachers, onEdit, onAdd }) => {
+const TeacherTable = ({ teachers, onEdit }) => {
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full bg-white border border-gray-200">
@@ -13,10 +13,13 @@ const TeacherTable = ({ teachers, onEdit, onAdd }) => {
               Teacher
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Position
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Degree
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Email
+              Address
             </th>
           </tr>
         </thead>
@@ -43,6 +46,9 @@ const TeacherTable = ({ teachers, onEdit, onAdd }) => {
                 </div>
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
+                {teacher.teacherPositionsId?.name}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">
                 <div>
                   <p className="text-sm font-medium text-gray-500">
                     {teacher.degrees?.[teacher.degrees.length - 1].type}
@@ -53,7 +59,7 @@ const TeacherTable = ({ teachers, onEdit, onAdd }) => {
                 </div>
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
-                {teacher.userId?.email}
+                {teacher.userId?.address}
               </td>
             </tr>
           ))}

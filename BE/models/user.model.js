@@ -21,14 +21,17 @@ const userSchema = new mongoose.Schema(
     },
     address: {
       type: String,
+      required: true,
       trim: true,
     },
     identity: {
       type: String,
+      required: true,
       trim: true,
     },
     dob: {
       type: Date,
+      required: true,
     },
     isDeleted: {
       type: Boolean,

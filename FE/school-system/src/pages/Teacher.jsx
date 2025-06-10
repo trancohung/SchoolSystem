@@ -4,7 +4,6 @@ import teacherApi from "../services/teacherApi";
 import TeacherForm from "../components/TeacherForm";
 
 const Teacher = () => {
-  // this page will manage the teacher's information
   const [teachers, setTeachers] = useState([]);
   const [pagination, setPagination] = useState({
     currentPage: 1,
@@ -46,6 +45,7 @@ const Teacher = () => {
         await teacherApi.update(editTeacher._id, formData);
         console.log("Teacher updated successfully!");
       } else {
+        console.log("Form data being submitted:", formData);
         await teacherApi.create(formData);
         console.log("Teacher added successfully!");
       }
@@ -68,22 +68,53 @@ const Teacher = () => {
       <div className="bg-white shadow-md rounded-lg p-6 mb-8">
         <div className="flex justify-between items-center">
           <h2 className="text-xl font-semibold mb-4">Teacher List</h2>
-          {!showForm && (
-            <button
-              className="cursor-pointer mb-4 bg-gray-600 text-white p-2 rounded-lg"
-              onClick={handleAddTeacher}
-            >
-              Add
-            </button>
-          )}
+          <button
+            className="cursor-pointer mb-4 bg-gray-600 text-white p-2 rounded-lg"
+            onClick={handleAddTeacher}
+          >
+            Add
+          </button>
         </div>
-        {/* Teacher list will be displayed here */}
+
         {!showForm && (
-          <TeacherTable
-            teachers={teachers}
-            onEdit={handleEditTeacher}
-            onAdd={handleAddTeacher}
-          />
+          <div>
+            <TeacherTable teachers={teachers} onEdit={handleEditTeacher} />
+            <div className="flex justify-end items-center mt-4 gap-4">
+              <div>Total: {pagination.totalCount}</div>
+              <div className="flex gap-2">
+                <button
+                  className="cursor-pointer"
+                  onClick={() => fetchTeachers(pagination.currentPage - 1)}
+                  disabled={pagination.currentPage === 1}
+                >
+                  ‹
+                </button>
+                <div>
+                  {Array.from({ length: pagination.totalPages }, (_, index) => (
+                    <button
+                      key={index}
+                      className={`px-2 cursor-pointer ${
+                        pagination.currentPage === index + 1 ? "font-bold" : ""
+                      }`}
+                      onClick={() => fetchTeachers(index + 1)}
+                    >
+                      {index + 1}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  className="cursor-pointer"
+                  onClick={() => fetchTeachers(pagination.currentPage + 1)}
+                  disabled={pagination.currentPage === pagination.totalPages}
+                >
+                  ›
+                </button>
+                <span>
+                  Page {pagination.currentPage} / {pagination.totalPages}
+                </span>
+              </div>
+            </div>
+          </div>
         )}
         {showForm && (
           <TeacherForm
@@ -92,41 +123,6 @@ const Teacher = () => {
             onCancel={handleCancelForm}
           />
         )}
-        <div className="flex justify-end items-center mt-4 gap-4">
-          <div>Total: {pagination.totalCount}</div>
-          <div className="flex gap-2">
-            <button
-              className="cursor-pointer"
-              onClick={() => fetchTeachers(pagination.currentPage - 1)}
-              disabled={pagination.currentPage === 1}
-            >
-              ‹
-            </button>
-            <div>
-              {Array.from({ length: pagination.totalPages }, (_, index) => (
-                <button
-                  key={index}
-                  className={`px-2 cursor-pointer ${
-                    pagination.currentPage === index + 1 ? "font-bold" : ""
-                  }`}
-                  onClick={() => fetchTeachers(index + 1)}
-                >
-                  {index + 1}
-                </button>
-              ))}
-            </div>
-            <button
-              className="cursor-pointer"
-              onClick={() => fetchTeachers(pagination.currentPage + 1)}
-              disabled={pagination.currentPage === pagination.totalPages}
-            >
-              ›
-            </button>
-            <span>
-              Page {pagination.currentPage} / {pagination.totalPages}
-            </span>
-          </div>
-        </div>
       </div>
     </div>
   );

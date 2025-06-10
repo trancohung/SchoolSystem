@@ -31,6 +31,7 @@ const teacherSchema = new mongoose.Schema(
     teacherPositionsId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "TeacherPosition",
+      required: true,
     },
     degrees: [
       {
